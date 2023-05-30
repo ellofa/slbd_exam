@@ -1,5 +1,6 @@
 from load_data import load_data
 import numpy as np
+import matplotlib.pyplot as plt
 from sklearn.model_selection import cross_val_score
 from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import GaussianNB
@@ -8,6 +9,13 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+from sklearn.feature_selection import RFECV
+from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
+from sklearn.metrics import pairwise_distances
+from sklearn.mixture import GaussianMixture
+
 
 def drop_missing(data):
     data[data == -1000] = np.nan
@@ -15,13 +23,15 @@ def drop_missing(data):
     n = data.shape[0]
     X = data.loc[:, data.columns != '0'].to_numpy()
     y = data.loc[:,'0'].to_numpy().reshape(n,1)
-    return X,y
+    return X,y,data
 
 def class_balance(y):
     print("nb of samples belonging to class 1", np.sum(y == 1))
     print("nb of samples belonging to class 2", np.sum(y == 2))
     print("nb of samples belonging to class 3", np.sum(y == 3))
     print("nb of samples belonging to class 4", np.sum(y == 4))
+    print("nb of samples belonging to class 5", np.sum(y == 5))
+    print("nb of samples belonging to class 6", np.sum(y == 6))
 
 def softmax_regression(X_train,y_train,penalty):
     sr = LogisticRegression(solver='lbfgs', max_iter=500, penalty=penalty, multi_class='multinomial')
@@ -119,7 +129,79 @@ def random_forest(X_train, y_train):
         return n_estim, rf, mean, std, scores
 
 
+def fs_sr(X_train,y_train,X_test,y_test):
+    estimator=LogisticRegression(solver='lbfgs', max_iter = 1000,penalty=None, multi_class='multinomial')
+    rfecv = RFECV(estimator=estimator, cv=10)
+    rfecv.fit(X_train, y_train )
 
+    # Get the selected features from both training and test sets
+    features_train = X_train[:, rfecv.get_support()]
+    features_test = X_test[:, rfecv.get_support()]
+    sr_fs =LogisticRegression(solver='lbfgs',max_iter = 1000, penalty=None, multi_class='multinomial')
+    sr_fs.fit(features_train, y_train)
+    y_pred_sr_fs = sr_fs.predict(features_test)
 
+    acc_sr = accuracy_score(y_test, y_pred_sr_fs)
+    precision_sr = precision_score(y_test, y_pred_sr_fs, average = 'micro')
+    recall_sr = recall_score(y_test, y_pred_sr_fs,average = 'micro')
+    f1_sr = f1_score(y_test, y_pred_sr_fs, average = 'micro')
+    print(f"accuracy: {acc_sr}, precision: {precision_sr}, recall: {recall_sr}, f1-score:{f1_sr}")
 
+def kmeans(X, y, n_clust, pc):
+    kmeans = KMeans(n_clusters=n_clust)
+    cluster_labels = kmeans.fit_predict(X)
+    silhouette_avg = silhouette_score(X, cluster_labels)
+    '''
+    fig, axes = plt.subplots(nrows=1, ncols=1)
+    #axes[0].scatter(X[:,0], X[:,1], c=y)
+    #axes[0].set_title("Original data")
+    axes.set_title(f"Kmeans with {pc} pcs and {n_clust} clusters")
+    axes.scatter(X[:,0], X[:,1], c=cluster_labels)
+    fig.suptitle(f"kmeans with {n_clust} and {pc} PCs")
+    
+    #plt.savefig(f"figures/kmeans_{n_clust}_{pc}_PCs")
+    plt.show()
+    '''
 
+    distances = pairwise_distances(X)
+    within_cluster_scatter = np.sum([np.sum(distances[cluster_labels == i][:, cluster_labels == i]) for i in range(n_clust)])
+    between_cluster_scatter = np.sum([np.sum(distances[cluster_labels == i][:, cluster_labels != i]) for i in range(n_clust)])
+
+    #Calinski-Harabasz Index
+    calinski_score = between_cluster_scatter / within_cluster_scatter * (X.shape[0] - n_clust) / (n_clust - 1)
+
+    #Dunn Index
+    min_inter_cluster_distance = np.min([np.min(distances[cluster_labels == i][:, cluster_labels != i]) for i in range(n_clust)])
+    max_intra_cluster_distance = np.max([np.max(distances[cluster_labels == i][:, cluster_labels == i]) for i in range(n_clust)])
+    dunn_score = min_inter_cluster_distance / max_intra_cluster_distance
+
+    return silhouette_avg,calinski_score, dunn_score
+
+def gmm(X,y,n_clust,pc):
+    clusterer = GaussianMixture(n_components=n_clust)
+    clusterer.fit(X)
+    cluster_labels = clusterer.predict(X)
+    silhouette_avg = silhouette_score(X, cluster_labels)
+    '''
+    fig, axes = plt.subplots(nrows=1, ncols=1)
+    #axes[0].scatter(X[:,0], X[:,1], c=y)
+    #axes[0].set_title("Original data")
+    axes.set_title(f"Kmeans with {pc} pcs and {n_clust} clusters")
+    axes.scatter(X[:,0], X[:,1], c=cluster_labels)
+    fig.suptitle(f"GMM with {n_clust} and {pc} PCs")
+    
+    plt.savefig(f"figures/GMM{n_clust}_{pc}_PCs")
+    plt.show()
+    '''
+    distances = pairwise_distances(X)
+    within_cluster_scatter = np.sum([np.sum(distances[cluster_labels == i][:, cluster_labels == i]) for i in range(n_clust)])
+    between_cluster_scatter = np.sum([np.sum(distances[cluster_labels == i][:, cluster_labels != i]) for i in range(n_clust)])
+
+    #Calinski-Harabasz Index
+    calinski_score = between_cluster_scatter / within_cluster_scatter * (X.shape[0] - n_clust) / (n_clust - 1)
+
+    #Dunn Index
+    min_inter_cluster_distance = np.min([np.min(distances[cluster_labels == i][:, cluster_labels != i]) for i in range(n_clust)])
+    max_intra_cluster_distance = np.max([np.max(distances[cluster_labels == i][:, cluster_labels == i]) for i in range(n_clust)])
+    dunn_score = min_inter_cluster_distance / max_intra_cluster_distance
+    return silhouette_avg,calinski_score, dunn_score

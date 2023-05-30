@@ -16,6 +16,8 @@ def load_data():
     X = data.loc[:, data.columns != '0'].to_numpy()
     y = np.ravel(data.loc[:,'0'].to_numpy())
 
+
+
     '''
     #Visualize the data
     # normalize values
@@ -56,4 +58,4 @@ def load_data():
 
 
 
-#load_data()
+load_data()

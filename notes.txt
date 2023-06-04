@@ -1585,3 +1585,246 @@ Adjusted p-value: 7.161410499088781e-08
 Feature 982
 Pearson correlation coefficient: [-0.20181157235651667]
 Adjusted p-value: 7.162433559272124e-08
+
+
+Simple Imputor:
+Accuracy: NB: 0.864 SR:  0.919 KNN: 0.916 SVM 0.918 RF:  0.849
+Precision: NB: 0.864 SR:  0.919 KNN: 0.75 LDA: 0.916 SVM: 0.864 RF:  0.849
+Recall: NB: 0.864 SR:  0.919 KNN: 0.75 LDA: 0.916 SVM: 0.918 RF:  0.849
+F1-score: NB: 0.864 SR:  0.919 KNN: 0.75 LDA: 0.916 SVM: 0.918 RF:  0.849
+
+KNN Imputer:
+Accuracy: NB: 0.86 SR:  0.917 KNN: 0.913 SVM 0.924 RF:  0.857
+Precision: NB: 0.86 SR:  0.917 KNN: 0.847 LDA: 0.913 SVM: 0.86 RF:  0.857
+Recall: NB: 0.86 SR:  0.917 KNN: 0.847 LDA: 0.913 SVM: 0.924 RF:  0.857
+F1-score: NB: 0.8599999999999999 SR:  0.917 KNN: 0.847 LDA: 0.9130000000000001 SVM: 0.924 RF:  0.857
+
+Iterative Imputer
+Accuracy: NB: 0.86 SR:  0.919 KNN: 0.913 SVM 0.919 RF:  0.849
+Precision: NB: 0.86 SR:  0.919 KNN: 0.784 LDA: 0.913 SVM: 0.86 RF:  0.849
+Recall: NB: 0.86 SR:  0.919 KNN: 0.784 LDA: 0.913 SVM: 0.919 RF:  0.849
+F1-score: NB: 0.8599999999999999 SR:  0.919 KNN: 0.7840000000000001 LDA: 0.9130000000000001 SVM: 0.919 RF:  0.849
+
+
+
+SVM with/without PCA 
+mean score of training data with SVM : 0.91375
+standard deviation score of training data with SVM: 0.014319033564533002
+mean score of training data with SVM : 0.9020833333333333
+standard deviation score of training data with SVM: 0.014819516036482289
+mean score of training data with SVM : 0.9037499999999999
+standard deviation score of training data with SVM: 0.012140668570277877
+
+Model Stacking results
+acc : 0.924, precison :0.924, recall0.924, f1: 0.924
+
+
+feature importance model stacking:
+1. feature 24 with importance score 1.7692744129894398
+2. feature 25 with importance score -1.103002240540545
+3. feature 16 with importance score 0.8372345731844082
+4. feature 29 with importance score 0.8007844344843642
+5. feature 32 with importance score 0.7111601997740987
+6. feature 8 with importance score 0.5913753625138559
+7. feature 26 with importance score -0.5713262696368274
+8. feature 33 with importance score -0.5480988464509491
+9. feature 5 with importance score 0.4624985108973544
+10. feature 19 with importance score -0.45790788117708947
+11. feature 23 with importance score -0.4371681978945054
+12. feature 30 with importance score -0.43429997175307167
+13. feature 20 with importance score 0.42176159522020745
+14. feature 13 with importance score 0.40678768734234605
+15. feature 11 with importance score -0.4037644659284187
+16. feature 6 with importance score -0.375730804511546
+17. feature 1 with importance score 0.3638845881743881
+18. feature 37 with importance score -0.3632660666786563
+19. feature 2 with importance score -0.34975213465974897
+20. feature 3 with importance score -0.34407757038891035
+21. feature 18 with importance score -0.33274177031253593
+22. feature 0 with importance score 0.33023279990305354
+23. feature 15 with importance score -0.27255371405087947
+24. feature 21 with importance score 0.19850622303522064
+25. feature 28 with importance score -0.1958575702120011
+26. feature 22 with importance score -0.18281193733213855
+27. feature 34 with importance score -0.1816795172090812
+28. feature 36 with importance score 0.17274885761364703
+29. feature 31 with importance score -0.1703392094905051
+30. feature 10 with importance score -0.1339311606971649
+31. feature 39 with importance score 0.12084572407212203
+32. feature 42 with importance score 0.09705356546770826
+33. feature 27 with importance score -0.09465821978328187
+34. feature 14 with importance score -0.08610071304947063
+35. feature 43 with importance score -0.08378808299699081
+36. feature 38 with importance score 0.06995916802167318
+37. feature 9 with importance score -0.053392052859489766
+38. feature 7 with importance score -0.05055140378999715
+39. feature 12 with importance score -0.04784557721452249
+40. feature 17 with importance score -0.04629723866599853
+41. feature 4 with importance score -0.0359286195670278
+42. feature 35 with importance score 0.018905846914712785
+43. feature 40 with importance score -0.007307942735994711
+44. feature 41 with importance score -0.005669856705938371
+
+
+question 3b svm
+acc : 0.914, precison :0.914, recall0.914, f10.914
+
+1. feature 24 with importance score 0.691583325683067
+2. feature 28 with importance score 0.6182675362701696
+3. feature 4 with importance score 0.5519864320173394
+4. feature 48 with importance score 0.5385554529461718
+5. feature 0 with importance score 0.5285618430726747
+6. feature 52 with importance score 0.4343819090777456
+7. feature 8 with importance score 0.4316628531050386
+8. feature 57 with importance score 0.4027561652163459
+9. feature 27 with importance score -0.40220457466425996
+10. feature 7 with importance score -0.38748744345544195
+11. feature 31 with importance score -0.3867300797063332
+12. feature 35 with importance score -0.38601736712512064
+13. feature 55 with importance score -0.3775384086823599
+14. feature 3 with importance score -0.3752326140305136
+15. feature 51 with importance score -0.3724954354806273
+16. feature 59 with importance score -0.3644071737500941
+17. feature 11 with importance score -0.3637530480103822
+18. feature 33 with importance score 0.35937581991302914
+19. feature 32 with importance score 0.3215297793896761
+20. feature 6 with importance score -0.3148040947997303
+21. feature 2 with importance score -0.3071340673916
+22. feature 50 with importance score -0.30688673196958055
+23. feature 30 with importance score -0.2959485406756344
+24. feature 34 with importance score -0.293958509745808
+25. feature 26 with importance score -0.2929658578173495
+26. feature 54 with importance score -0.2926229188102315
+27. feature 58 with importance score -0.29069875427560704
+28. feature 10 with importance score -0.28545373548507474
+29. feature 56 with importance score 0.2532794852411342
+30. feature 53 with importance score 0.23670914084662123
+31. feature 9 with importance score 0.2184736528221933
+32. feature 1 with importance score 0.15473456078121253
+33. feature 5 with importance score 0.1512348286696082
+34. feature 49 with importance score 0.14175643693581114
+35. feature 29 with importance score 0.06534080654357328
+36. feature 25 with importance score 0.004516829230319713
+37. feature 61 with importance score 0.0005765047884412622
+38. feature 63 with importance score 0.0005600504486361095
+39. feature 39 with importance score 0.00042408687989904675
+40. feature 15 with importance score 0.00042283599780434055
+41. feature 37 with importance score 0.00041492916596555
+42. feature 13 with importance score 0.00041483992520034203
+43. feature 68 with importance score 0.0002759857551647725
+44. feature 64 with importance score 0.00027596967111130535
+45. feature 44 with importance score 0.00027573925192030216
+46. feature 16 with importance score 0.0002756514805107152
+47. feature 20 with importance score 0.00027565032653980627
+48. feature 40 with importance score 0.0002755436200042972
+49. feature 42 with importance score 0.0002474136616988448
+50. feature 70 with importance score 0.000247391719961423
+51. feature 22 with importance score 0.000247342764741557
+52. feature 46 with importance score 0.00024734249486572246
+53. feature 66 with importance score 0.0002473407050957915
+54. feature 18 with importance score 0.0002473150102083793
+55. feature 43 with importance score 0.0002303019859085563
+56. feature 23 with importance score 0.00023026776155379708
+57. feature 19 with importance score 0.00023024938212161172
+58. feature 71 with importance score 0.0002301342087426138
+59. feature 47 with importance score 0.00023009620885922825
+60. feature 67 with importance score 0.00023006999963691527
+61. feature 45 with importance score 0.0001765444761286993
+62. feature 17 with importance score 0.00017650655893507712
+63. feature 41 with importance score 0.00017646316416259088
+64. feature 21 with importance score 0.00017646157893949277
+65. feature 65 with importance score 0.00017634205593191165
+66. feature 69 with importance score 0.0001762107479076602
+67. feature 60 with importance score -0.00010844159569681771
+68. feature 62 with importance score -9.839120960152484e-05
+69. feature 38 with importance score 6.022695869616921e-05
+70. feature 14 with importance score 5.765826349019198e-05
+71. feature 12 with importance score 3.438824528245449e-05
+72. feature 36 with importance score 3.047942721804538e-05
+
+Algorithms perf without mislabeled data:
+mean score of training data with Softmax Regression : 0.9183333333333332
+standard deviation score of training data with Softmax Regression : 0.008579691784155845
+mean score of training data with Softmax Regression : 0.9154166666666665
+standard deviation score of training data with Softmax Regression : 0.006731456008918137
+mean score of training data with Naive Bayes: 0.8733333333333333
+standard deviation score of training data with Naive Bayes: 0.022912878474779196
+best k-param selected: 8
+mean score of training data with 8-nn : 0.85125
+standard deviation score of training data with  8-nn: 0.031015788989910708
+mean score of training data with LDA : 0.9029166666666667
+standard deviation score of training data with LDA: 0.018071040368501202
+mean score of training data with SVM : 0.91375
+standard deviation score of training data with SVM: 0.014319033564533002
+mean score of training data with SVM : 0.9020833333333333
+standard deviation score of training data with SVM: 0.014819516036482289
+mean score of training data with SVM : 0.9037499999999999
+standard deviation score of training data with SVM: 0.012140668570277877
+mean score of training data with 200-Random Forest : 0.8612500000000001
+standard deviation score of training data with 200-Random Forest : 0.01667187418645212
+
+
+Algorithms perf with mislabeled data:
+mean score of training data with Softmax Regression : 0.525
+standard deviation score of training data with Softmax Regression : 0.0320589734361189
+mean score of training data with Softmax Regression : 0.515
+standard deviation score of training data with Softmax Regression : 0.028577380332470412
+mean score of training data with Naive Bayes: 0.6845833333333333
+standard deviation score of training data with Naive Bayes: 0.036706890815395056
+best k-param selected: 9
+mean score of training data with 9-nn : 0.6558333333333334
+standard deviation score of training data with  9-nn: 0.04188277291043021
+mean score of training data with LDA : 0.5516666666666667
+standard deviation score of training data with LDA: 0.03119161212035485
+
+
+
+feature importance mislabeling :
+1. feature 32 with importance score 1.4114263053728588
+2. feature 24 with importance score 0.9569363294994955
+3. feature 16 with importance score 0.6948959734827074
+4. feature 34 with importance score -0.665502447532286
+5. feature 19 with importance score -0.6408503607270103
+6. feature 37 with importance score -0.5898949656997816
+7. feature 25 with importance score -0.5821003275130806
+8. feature 15 with importance score -0.5321639942462804
+9. feature 13 with importance score 0.5154305518511784
+10. feature 33 with importance score -0.48415662551513544
+11. feature 22 with importance score -0.4829352221122123
+12. feature 23 with importance score 0.426878640164692
+13. feature 30 with importance score -0.40794732515252113
+14. feature 6 with importance score 0.3956597374522402
+15. feature 28 with importance score 0.3684197710130538
+16. feature 39 with importance score 0.3277473354445063
+17. feature 26 with importance score -0.2940243755034362
+18. feature 36 with importance score 0.2647386014599534
+19. feature 35 with importance score -0.2614562752261457
+20. feature 7 with importance score -0.20405749552011965
+21. feature 40 with importance score 0.19010371224086056
+22. feature 12 with importance score 0.17088258460883962
+23. feature 29 with importance score 0.1680321192873189
+24. feature 0 with importance score 0.16788539733639438
+25. feature 4 with importance score -0.1637412912156019
+26. feature 10 with importance score 0.15856176891687923
+27. feature 14 with importance score -0.15383818511574826
+28. feature 1 with importance score -0.152225172569722
+29. feature 8 with importance score -0.13964729597890424
+30. feature 31 with importance score -0.1281936080485576
+31. feature 42 with importance score -0.10668621974975022
+32. feature 27 with importance score -0.08050066938368351
+33. feature 21 with importance score 0.07435785869551016
+34. feature 41 with importance score -0.06304507909590538
+35. feature 3 with importance score -0.04785773715717603
+36. feature 18 with importance score -0.033544414936684405
+37. feature 2 with importance score 0.03250846948979571
+38. feature 5 with importance score -0.027549993617223656
+39. feature 9 with importance score -0.020226823635467205
+40. feature 17 with importance score -0.020190240719719397
+41. feature 43 with importance score -0.0200614562959086
+42. feature 20 with importance score -0.01799031964869652
+43. feature 38 with importance score -0.00228001410538124
+44. feature 11 with importance score 0.0016233077967856898
+
+acc : 0.897, precison :0.897, recall0.897, f10.897
+
+

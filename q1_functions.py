@@ -11,8 +11,8 @@ from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from sklearn.feature_selection import RFECV
-from sklearn.cluster import KMeans
-from sklearn.metrics import silhouette_score
+from sklearn.cluster import KMeans, DBSCAN
+from sklearn.metrics import silhouette_score, calinski_harabasz_score
 from sklearn.metrics import pairwise_distances
 from sklearn.mixture import GaussianMixture
 
@@ -100,7 +100,7 @@ def linear_discr(X_train,y_train):
     return lda, mean, std, scores
 
 def svm_rbf (X_train, y_train):
-    svm = SVC(kernel='rbf')
+    svm = SVC(kernel='rbf', probability = True)
 
     #cross-validation score
     scores = cross_val_score(svm, X_train, y_train, cv=10)
@@ -140,12 +140,15 @@ def fs_sr(X_train,y_train,X_test,y_test):
     sr_fs =LogisticRegression(solver='lbfgs',max_iter = 1000, penalty=None, multi_class='multinomial')
     sr_fs.fit(features_train, y_train)
     y_pred_sr_fs = sr_fs.predict(features_test)
+    y_pred_sr_fs_proba = sr_fs.predict_proba(features_test)
+    
 
     acc_sr = accuracy_score(y_test, y_pred_sr_fs)
     precision_sr = precision_score(y_test, y_pred_sr_fs, average = 'micro')
     recall_sr = recall_score(y_test, y_pred_sr_fs,average = 'micro')
     f1_sr = f1_score(y_test, y_pred_sr_fs, average = 'micro')
     print(f"accuracy: {acc_sr}, precision: {precision_sr}, recall: {recall_sr}, f1-score:{f1_sr}")
+    return y_pred_sr_fs,y_pred_sr_fs_proba
 
 def kmeans(X, y, n_clust, pc):
     kmeans = KMeans(n_clusters=n_clust)
@@ -168,7 +171,7 @@ def kmeans(X, y, n_clust, pc):
     between_cluster_scatter = np.sum([np.sum(distances[cluster_labels == i][:, cluster_labels != i]) for i in range(n_clust)])
 
     #Calinski-Harabasz Index
-    calinski_score = between_cluster_scatter / within_cluster_scatter * (X.shape[0] - n_clust) / (n_clust - 1)
+    calinski_score = calinski_harabasz_score(X,cluster_labels)
 
     #Dunn Index
     min_inter_cluster_distance = np.min([np.min(distances[cluster_labels == i][:, cluster_labels != i]) for i in range(n_clust)])
@@ -198,7 +201,35 @@ def gmm(X,y,n_clust,pc):
     between_cluster_scatter = np.sum([np.sum(distances[cluster_labels == i][:, cluster_labels != i]) for i in range(n_clust)])
 
     #Calinski-Harabasz Index
-    calinski_score = between_cluster_scatter / within_cluster_scatter * (X.shape[0] - n_clust) / (n_clust - 1)
+    calinski_score = calinski_harabasz_score(X,cluster_labels)
+
+    #Dunn Index
+    min_inter_cluster_distance = np.min([np.min(distances[cluster_labels == i][:, cluster_labels != i]) for i in range(n_clust)])
+    max_intra_cluster_distance = np.max([np.max(distances[cluster_labels == i][:, cluster_labels == i]) for i in range(n_clust)])
+    dunn_score = min_inter_cluster_distance / max_intra_cluster_distance
+    return silhouette_avg,calinski_score, dunn_score
+
+def dbscan(X,y,n_clust,pc):
+    dbscan = DBSCAN(eps=0.5, min_samples=5)
+    cluster_labels = dbscan.fit_predict(X)
+    silhouette_avg = silhouette_score(X, cluster_labels)
+    '''
+    fig, axes = plt.subplots(nrows=1, ncols=1)
+    #axes[0].scatter(X[:,0], X[:,1], c=y)
+    #axes[0].set_title("Original data")
+    axes.set_title(f"Kmeans with {pc} pcs and {n_clust} clusters")
+    axes.scatter(X[:,0], X[:,1], c=cluster_labels)
+    fig.suptitle(f"GMM with {n_clust} and {pc} PCs")
+    
+    plt.savefig(f"figures/GMM{n_clust}_{pc}_PCs")
+    plt.show()
+    '''
+    distances = pairwise_distances(X)
+    within_cluster_scatter = np.sum([np.sum(distances[cluster_labels == i][:, cluster_labels == i]) for i in range(n_clust)])
+    between_cluster_scatter = np.sum([np.sum(distances[cluster_labels == i][:, cluster_labels != i]) for i in range(n_clust)])
+
+    #Calinski-Harabasz Index
+    calinski_score = calinski_harabasz_score(X,cluster_labels)
 
     #Dunn Index
     min_inter_cluster_distance = np.min([np.min(distances[cluster_labels == i][:, cluster_labels != i]) for i in range(n_clust)])

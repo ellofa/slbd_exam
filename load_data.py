@@ -11,12 +11,10 @@ def load_data():
 
     # column 0 contains classes
     data.columns = [str(i) for i in range(1001)]
-
+    data[data == -1000] = np.nan
     # seperate X and y
     X = data.loc[:, data.columns != '0'].to_numpy()
     y = np.ravel(data.loc[:,'0'].to_numpy())
-
-
 
     '''
     #Visualize the data
@@ -54,8 +52,4 @@ def load_data():
     plt.show()
 '''
 
-    return X,y, data
-
-
-
-load_data()
+    return X,y,data

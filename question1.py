@@ -1,7 +1,5 @@
-from curses.ascii import LF
-from re import L, M
 from load_data import load_data
-from q1_functions import drop_missing, class_balance, softmax_regression, naive_bayes,knneigh,linear_discr, svm_rbf,random_forest,fs_sr,kmeans,gmm
+from q1_functions import drop_missing, class_balance, softmax_regression, naive_bayes,knneigh,linear_discr, svm_rbf,random_forest,fs_sr,kmeans,gmm,dbscan 
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -251,9 +249,8 @@ svm_feature_sel.fit(features, y_train)
 y_pred_svm_fs = svm_feature_sel.predict(features_test)
 cm_svm_fs = confusion_matrix(y_test, y_pred_svm_fs)
 
-# plot confusion matrices
+# plot confusion matrice
 fig,axes = plt.subplots()
-sns.heatmap(cm_svm_fs, annot=True, fmt='g')
 sns.heatmap(cm_svm_fs, annot=True, fmt='g')
 axes.set_title('SVM with ANOVA normalized_data')
 #plt.savefig(f"figures/SVM_anova_confusion_mat_normalized_data")
@@ -300,7 +297,6 @@ y_pred_lda_fs = lda_fs.predict(X_test_selected)
 cm_lda_fs = confusion_matrix(y_test, y_pred_lda_fs)
 fig,axes = plt.subplots()
 sns.heatmap(cm_lda_fs, annot=True, fmt='g')
-sns.heatmap(cm_lda_fs, annot=True, fmt='g')
 axes.set_title('LDA with lasso regularization normalized_data')
 #plt.savefig(f"figures/LDA_lasso_confusion_mat_normalized_data")
 plt.show()
@@ -337,7 +333,6 @@ print(f"accuracy: {acc_sr}, precision: {precision_sr}, recall: {recall_sr}, f1-s
 #plot confusion matrix
 cm_sr_fs = confusion_matrix(y_test, y_pred_sr_fs)
 fig,axes = plt.subplots()
-sns.heatmap(cm_sr_fs, annot=True, fmt='g')
 sns.heatmap(cm_sr_fs, annot=True, fmt='g')
 axes.set_title('Softmax Regression with Recursive Feature Elimination with Cross-Validation normalized_data')
 #plt.savefig(f"figures/Softmax_Regression_RFECVconfusion_mat_normalized_data")
@@ -388,7 +383,7 @@ axes.set_title('Merging class 1 and 2')
 plt.show()
 
 print("after applying feature selection")
-fs_sr(X_train,y_train,X_test,y_test)
+y_pred_sr_fs,y_pred_sr_fs_proba = fs_sr(X_train,y_train,X_test,y_test)
 
 
 #splitting classes
@@ -543,7 +538,7 @@ for feature in sorted_features:
 
 
 #Queston 1e
-'''
+
 print("Question 1e")
 X_missing, y_missing,data = drop_missing(data)
 y_missing = y_missing.ravel()
@@ -584,6 +579,8 @@ for j in range(10):
         silhouette_gmm.append(silhouette_avg_gmm)
         calinski_gmm.append(c_gmm)
         dunn_gmm.append(d_gmm)
+    silhouette_avg_db,c_db,d_db = dbscan(X_missing_pca,y_missing,i,100)
+
     total_silhouette_avg_km = total_silhouette_avg_km + np.array(silhouette_km)
     total_c_km = total_c_km + np.array(calinski_km)
     total_d_km = total_d_km + np.array(dunn_km)
@@ -591,6 +588,7 @@ for j in range(10):
     total_silhouette_avg_gmm = total_silhouette_avg_gmm + np.array(silhouette_gmm)
     total_c_gmm = total_c_gmm + np.array(calinski_gmm)
     total_d_gmm = total_d_gmm + np.array(dunn_gmm)
+
 
 for i in range(len(total_silhouette_avg_km)):
     total_silhouette_avg_km[i]/=10
@@ -656,6 +654,7 @@ for i in clusters:
     calinski_gmm.append(c_gmm)
     dunn_gmm.append(d_gmm)
 
+
 fig = plt.figure("fig1")
 plt.plot(clusters, silhouette_km, marker='o', color='yellow', label ='kmeans')
 plt.plot(clusters, silhouette_gmm, marker='o', color='green', label ='gmm')
@@ -686,4 +685,3 @@ plt.title('Dunn Index for Different Numbers of Clusters')
 plt.savefig(f"figures/dunn_scores_feature_clustering")
 plt.show()
 
-'''
